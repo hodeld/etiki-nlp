@@ -1,0 +1,45 @@
+ID;NAME;CATEGORY_ID;CATEGORY_NAME;TENDENCY_ID;TENDENCY_NAME
+33;Abusing Dominant Market Position;4;Politics;1;negative
+15;Animal testing;2;Animal;1;negative
+29;Arms & Military Supply;5;Products&Services;1;negative
+32;Blackmail;4;Politics;1;negative
+22;Bribery and Corruption;4;Politics;1;negative
+9;Child labour;1;People;1;negative
+34;Counterfeit Products;5;Products&Services;1;negative
+13;Dangerous Working Conditions;1;People;1;negative
+10;Denial the right of uniform;1;People;1;negative
+12;Discrimination;1;People;1;negative
+19;Emissions contr. to climate change;3;Environment;1;negative
+26;Excessive 'directors’ remuneration;4;Politics;1;negative
+16;Factory farming;2;Animal;1;negative
+8;Forced labour / Slavery;1;People;1;negative
+27;Human Rights abuses through collab.;4;Politics;1;negative
+11;Inedaquate working conditions;1;People;1;negative
+23;Insider Share Dealing;4;Politics;1;negative
+24;Involvement In third World Debt;4;Politics;1;negative
+28;Irresponsible or illegal Marketing;4;Politics;1;negative
+2;Labels&Standards;1;People;2;positive
+2;Labels&Standards;2;Animal;2;positive
+2;Labels&Standards;3;Environment;2;positive
+7;Land rights abuses;1;People;1;negative
+14;Mistreating Animal rights;2;Animal;1;negative
+36;Negative Effect on Animals;4;Politics;1;negative
+36;Negative Effect on Animals;5;Products&Services;1;negative
+38;Negative Effect on People;4;Politics;1;negative
+38;Negative Effect on People;5;Products&Services;1;negative
+37;Negative Effect on the Environment;4;Politics;1;negative
+37;Negative Effect on the Environment;5;Products&Services;1;negative
+30;Operations in oppressive regimes;4;Politics;1;negative
+20;Political activity (donations);4;Politics;1;negative
+17;Pollution and Toxics;3;Environment;1;negative
+25;Price fixing;4;Politics;1;negative
+1;Reporting;1;People;2;positive
+1;Reporting;2;Animal;2;positive
+1;Reporting;3;Environment;2;positive
+18;Resources;3;Environment;1;negative
+6;Sexual abuse;1;People;1;negative
+4;Sustainable Product / Service;5;Products&Services;2;positive
+21;Tax avoidance;4;Politics;1;negative
+3;Transparency and Co-Determination;4;Politics;1;negative
+35;Vendor lock-in;5;Products&Services;1;negative
+5;Violating Human and Workers' Rights;1;People;1;negative
