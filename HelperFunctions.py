@@ -18,26 +18,6 @@ def ReplaceSentimentsWithIndexes(data):
   data[:,1]= [replace_all(p,dictionary) for p in data[:,1]]
   return data
 
-def ReplaceCategoriesWithIndex(categories, data):    
-  cateDictionary = categories["NAME"].T.to_dict()
-  cateDictionary = {y:x for x,y in cateDictionary.items()}
-
-  newData = []
-  for entry in data:
-    idx = -1
-    for i,dataEntry in enumerate(newData):
-      if (not isinstance(newData[i][1],list)):
-        newData[i][1] = newData[i][1].split(",")
-      if (dataEntry[0]==entry[0]):
-        if (not entry[1] in newData[i][1]):        
-          newData[i][1].append(entry[1])
-        idx = i
-        break
-    if (idx == -1):
-       newData.append(entry.tolist())
-      
-  return np.array(newData)
-
 def OneHotEncodingForCategories(data):
   from sklearn.preprocessing import MultiLabelBinarizer
   mlb = MultiLabelBinarizer()
@@ -134,7 +114,7 @@ def TransformDataIntoDataframe(data):
 
   return pd.DataFrame.from_dict(df)  
 
-def getMetricsMulti(cm, algorithm):
+def getMetricsMulti(cm, algorithm, folderName):
   import statistics
   import csv  
   print("Confusion Matrix:")
@@ -146,11 +126,10 @@ def getMetricsMulti(cm, algorithm):
   recall_averages = []
   foneScore_averages = []
   for i,matrix in enumerate(cm):
-    TP = matrix[0][0]
-    print(TP)
-    FP = matrix[0][1] 
-    FN = matrix[1][0]
-    TN = matrix[1][1]
+    TN = matrix[0][0]
+    FN = matrix[0][1] 
+    FP = matrix[1][0]
+    TP = matrix[1][1]
 
     precision = TP/(TP+FP)
     recall = TP/(TP+FN)
@@ -163,19 +142,19 @@ def getMetricsMulti(cm, algorithm):
     print ("Recall:",recall)
     print ("F1-Score:",foneScore)
 
-    #with open('results/2 epochs/'+algorithm+'-class'+str(i)+'-precision.csv', 'a', newline='') as f:
-      #writer = csv.writer(f)        
-      #writer.writerow([precision])
-    #with open('results/2 epochs/'+algorithm+'-class'+str(i)+'-recall.csv', 'a', newline='') as f:
-      #writer = csv.writer(f)        
-      #writer.writerow([recall])
-    #with open('results/2 epochs/'+algorithm+'-class'+str(i)+'-foneScore.csv', 'a', newline='') as f:
-      #writer = csv.writer(f)        
-      #writer.writerow([foneScore])
+    with open('results/'+folderName+'/'+algorithm+'-class'+str(i)+'-precision.csv', 'a', newline='') as f:
+      writer = csv.writer(f)        
+      writer.writerow([precision])
+    with open('results/'+folderName+'/'+algorithm+'-class'+str(i)+'-recall.csv', 'a', newline='') as f:
+      writer = csv.writer(f)        
+      writer.writerow([recall])
+    with open('results/'+folderName+'/'+algorithm+'-class'+str(i)+'-foneScore.csv', 'a', newline='') as f:
+      writer = csv.writer(f)        
+      writer.writerow([foneScore])
   
   fields=[statistics.mean(precision_arr),statistics.mean(recall_arr),statistics.mean(foneScore_arr)] 
 
-  with open('results/'+algorithm+'-average.csv', 'a', newline='') as f:
+  with open('results/'+folderName+'/'+algorithm+'-average.csv', 'a', newline='') as f:
       writer = csv.writer(f)
       writer.writerow(fields)
 
@@ -228,3 +207,38 @@ def CalculateWeights(labels, data):
   weights = compute_class_weight('balanced', labels, data[:,1])  
   weights = softmax(weights).tolist()
   return weights
+
+def ReplaceCategoriesWithIndex(categories, data,multiIndex):    
+  cateDictionary = categories["NAME"].T.to_dict()
+  cateDictionary = {y:x for x,y in cateDictionary.items()}
+
+  if (multiIndex):
+    newData = []
+    for entry in data:
+      idx = -1
+      for i,dataEntry in enumerate(newData):
+        if (not isinstance(newData[i][1],list)):
+          newData[i][1] = newData[i][1].split(",")
+        if (dataEntry[0]==entry[0]):
+          if (not entry[1] in newData[i][1]):        
+            newData[i][1].append(entry[1])
+          idx = i
+          break
+      if (idx == -1):
+        newData.append(entry.tolist())
+        
+    return np.array(newData)
+  data[:,1]= [replace_all(p,cateDictionary) for p in data[:,1]]
+  return data
+
+def ReplaceCategoriesWithIndexOneHot(categories, data):
+  cateDictionary = categories["NAME"].T.to_dict()
+  cateDictionary = {y:x for x,y in cateDictionary.items()}
+  newData = []
+  i = 0
+  for i,entry in enumerate(data):
+    newData.append(entry.tolist())
+    if (not isinstance(newData[i][1],list)):
+      newData[i][1] = newData[i][1].split(",")
+    
+  return np.array(newData)

@@ -68,3 +68,24 @@ def TrainAfinn(data):
                                 for score in sentiment_scores]
   return sentiment_category                       
 
+def LogisticRegressionMulti(train, test):
+  from sklearn.feature_extraction.text import TfidfVectorizer
+  vectorizer = TfidfVectorizer(strip_accents='unicode', analyzer='word', ngram_range=(1,3), norm='l2')
+  x_train = vectorizer.fit_transform(train["text"])
+  y_train = train["label"]
+  x_test = vectorizer.transform(test["text"])
+  y_test = test["label"]
+  
+  from sklearn.linear_model import LogisticRegression
+  from sklearn.pipeline import Pipeline
+  from sklearn.metrics import accuracy_score
+  from sklearn.multiclass import OneVsRestClassifier
+
+  LogReg_pipeline = Pipeline([
+                  ('clf', OneVsRestClassifier(LogisticRegression(solver='sag'), n_jobs=-1)),])
+
+  LogReg_pipeline.fit(x_train, y_train)
+  prediction = LogReg_pipeline.predict_proba(x_test)
+  return prediction
+
+
