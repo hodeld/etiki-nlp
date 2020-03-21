@@ -29,7 +29,7 @@ def EvalLogisticRegression(gridSearchResult, train_df, eval_df, vect):
   trainReg = vect.fit_transform(train_df["text"])
   testReg = vect.transform(eval_df["text"])
 
-  lr = grid.best_estimator_
+  lr = gridSearchResult.best_estimator_
   lr.fit(trainReg, train_df["label"])
 
   evalPred = lr.predict(testReg)
