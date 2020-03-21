@@ -1,10 +1,8 @@
-import random
 import numpy as np
 import pandas as pd
 
 def ShuffleData(data):
-  import random
-  random.shuffle(data)
+  np.random.shuffle(data)
   return data
 
 def replace_all(text, dic):

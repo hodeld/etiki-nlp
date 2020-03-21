@@ -44,12 +44,12 @@ def TrainNaiveBayes(train_df, vect):
   return vectTrainData
 
 
-def EvalNaiveBayes(vect, vectTrainData, train_df, eval_df):
+def EvalNaiveBayes(vect, model, train_df, eval_df):
   vectEvalData = vect.transform(eval_df["text"])
 
   from sklearn.naive_bayes import MultinomialNB
   clf = MultinomialNB()
-  clf.fit(vectTrainData, train_df["label"])
+  clf.fit(model, train_df["label"])
 
   evalPred = clf.predict(vectEvalData)
 
@@ -70,22 +70,23 @@ def TrainAfinn(data):
 
 def LogisticRegressionMulti(train, test):
   from sklearn.feature_extraction.text import TfidfVectorizer
-  vectorizer = TfidfVectorizer(strip_accents='unicode', analyzer='word', ngram_range=(1,3), norm='l2')
-  x_train = vectorizer.fit_transform(train["text"])
-  y_train = train["label"]
-  x_test = vectorizer.transform(test["text"])
-  y_test = test["label"]
-  
+  from sklearn.preprocessing import MultiLabelBinarizer
   from sklearn.linear_model import LogisticRegression
-  from sklearn.pipeline import Pipeline
-  from sklearn.metrics import accuracy_score
   from sklearn.multiclass import OneVsRestClassifier
-
-  LogReg_pipeline = Pipeline([
-                  ('clf', OneVsRestClassifier(LogisticRegression(solver='sag'), n_jobs=-1)),])
-
-  LogReg_pipeline.fit(x_train, y_train)
-  prediction = LogReg_pipeline.predict_proba(x_test)
-  return prediction
+  vectorizer = TfidfVectorizer(strip_accents='unicode', analyzer='word', ngram_range=(1,2),max_df=0.9,min_df=5,token_pattern=r'(\S+)')
+  x_train = vectorizer.fit_transform(train[:,2])
+  x_test = vectorizer.transform(test[:,2])
+  y_train = train[:,1]
+  y_test = test[:,1]
+  
+  mlb = MultiLabelBinarizer()
+  label_train = mlb.fit_transform(y_train)
+  label_test = mlb.fit_transform(y_test)
+  
+  model = LogisticRegression(C=1.0, penalty='l1', dual=False, solver='liblinear')
+  model = OneVsRestClassifier(model)
+  model.fit(x_train, label_train)
+  pred = model.predict_proba(x_test)
+  return pred, label_test
 
 
