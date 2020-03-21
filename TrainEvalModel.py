@@ -35,3 +35,13 @@ def EvalFromMultiLabelModel(model, evaluation_df):
 def PredictFromModel(model, text):
   predictions, raw_outputs = model.predict(text)
   return predictions, raw_outputs
+
+def LoadSentimentModelFromDisk(algorithm, path, args):
+  from simpletransformers.classification import ClassificationModel
+  model = ClassificationModel(algorithm, path, args)
+  return model
+  
+def LoadMultiLabelModelFromDisk(algorithm, path, args):
+  from simpletransformers.classification import MultiLabelClassificationModel
+  model = MultiLabelClassificationModel(algorithm, path, args)
+  return model
