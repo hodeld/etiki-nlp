@@ -20,7 +20,10 @@ This project contains the NLP-implementation of the bachelor-thesis "NLP für Et
 - sklearn.utils.class_weight.compute_class_weight
 - scipy.special.softmax
 
-## Testing Run (sentiment analysis)
+## Hyperparameter evaluation
+This repository contains all the files which were used for the hyperparameter tuning. They are accessible under "Multi-Label Classification" and "Sentiment Analysis". 
+NOTE: These are google colab notebooks. If they were to be used, they would need changes regards to the paths inside the notebook.
+
 The testing run works as follows:
 1. The code installs the needed packages with help of the file installpackages.sh. On Google Colab, the code inside of installpackages.sh needs to be included into the notebook and all lines need to be prefixed with an exclamation mark(!).
 2. Next, the testing run reads the needed csv-files for the test run. This should be replaced with a database call to load the data.
